@@ -1,17 +1,26 @@
 #!/bin/bash
 set -eu
 
-year="2020"
-month="12"
-day="05"
-dateSample=${year}${month}${day}
-dateSampleSlashed=${year}/${month}/${day}
+usage=$(cat << EOS
+Usage: ./buyTicket.bash DATE COMMODITY
+    DATE:       Slash-separated date. e.g. 2020/12/05
+    COMMODITY:  Commodity 'land' or 'sea'.
+EOS
+)
 
-# Land or sea
-commodity="TOZZ1D20910PT"   # land
-# commodity="TOZZ1D20911PT" # sea
-selectParkDay1="01"     # land
-# selectParkDay1="02"   # sea
+dateSampleSlashed=${1:-'2020/12/05'}
+dateSample=$(echo dateSampleSlashed | sed 's;/;;g')
+
+if [ "$2" = 'land' ]; then
+    commodity="tozz1d20910pt"   # land
+    selectparkday1="01"         # land
+elif [ "$2" = 'sea' ]; then
+    commodity="tozz1d20911pt"   # sea
+    selectParkDay1="02"         # sea
+else
+    echo $usage
+    exit 1;
+fi
 
 cookiejar=$(mktemp --tmpdir=./cookies)
 
@@ -21,7 +30,8 @@ token=$(curl -jsS 'https://reserve.tokyodisneyresort.jp/ticket/search/' \
     -H 'Connection: keep-alive' \
     -H 'Upgrade-Insecure-Requests: 1' \
     -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36' \
-    | grep "org.apache.struts.taglib.html.TOKEN" | grep -oP '(?<=value=").*(?=")' \
+    | grep "org.apache.struts.taglib.html.TOKEN" \
+    | grep -oP '(?<=value=").*(?=")' \
     | uniq)
 
 # ディズニーランド, 大人2人

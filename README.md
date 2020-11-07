@@ -22,15 +22,17 @@ It prints a result in JSON format:
 
 When it successfully keeps a ticket, the expected parameters are:
 
+```
 {
     "httpCode": "302",
     "redirectUrl": "https://reserve.tokyodisneyresort.jp/online/login/?receiptNO=$RECEIPT_NU",
     "cookiejar": "./cookies/$COOKIE_JAR"
 }
+```
 
-When the httpCode is "200", it implies it was full of reservations.
-When the httpCode is "403", it implies you have sent too much request to the server and the server denies your requests for a while.
-When the redirectUrl ends with "/overflow/ticket", it says the server's got too much requests at the moment.
+* When the httpCode is "200", it implies it was full of reservations.
+* When the httpCode is "403", it implies you have sent too much request to the server and the server denies your requests for a while.
+* When the redirectUrl ends with "/overflow/ticket", it says the server's got too much requests at the moment.
 
 ## Cookie manager
 

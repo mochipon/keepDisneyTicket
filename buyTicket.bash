@@ -8,14 +8,16 @@ Usage: ./buyTicket.bash DATE COMMODITY
 EOS
 )
 
-dateSampleSlashed=${1:-'2020/12/05'}
+dateSampleSlashed=$1
 dateSample=$(echo dateSampleSlashed | sed 's;/;;g')
 
+# parkTicketGroupCd, commodity can be changed sometimes
+parkTicketGroupCd=011
 if [ "$2" = 'land' ]; then
-    commodity="tozz1d20910pt"   # land
-    selectparkday1="01"         # land
+    commodity="TOZZ1D21000PT"   # land
+    selectParkDay1="01"         # land
 elif [ "$2" = 'sea' ]; then
-    commodity="tozz1d20911pt"   # sea
+    commodity="TOZZ1D21001PT"   # sea
     selectParkDay1="02"         # sea
 else
     echo $usage
@@ -55,7 +57,7 @@ curl -sS 'https://reserve.tokyodisneyresort.jp/online/parkticket/input/' \
     -H 'Referer: https://reserve.tokyodisneyresort.jp/ticket/search/' \
     -H 'Accept-Language: ja,en-US;q=0.9,en;q=0.8' \
     --data "tickets%5B0%5D.isParkTicket=true" \
-    --data "tickets%5B0%5D.parkTicketGroupCd=01" \
+    --data "tickets%5B0%5D.parkTicketGroupCd=$parkTicketGroupCd" \
     --data "tickets%5B0%5D.comCds=${commodity}" \
     --data "tickets%5B0%5D.parkTicketSalesForm=1" \
     --data "tickets%5B0%5D.useDays=1" \

@@ -2,7 +2,7 @@
 set -eu
 
 usage=$(cat << EOS
-Usage: ./buyTicket.bash DATE COMMODITY
+Usage: ./repeat.bash DATE COMMODITY
     DATE:       Slash-separated date. e.g. 2020/12/05
     COMMODITY:  Commodity 'land' or 'sea'.
 EOS
